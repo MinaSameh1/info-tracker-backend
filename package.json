@@ -1,5 +1,6 @@
 {
   "name": "orthdox-functions",
+  "esm": "auto",
   "version": "0.0.1",
   "description": "Mainly serverless functions for small usage",
   "main": "index.js",
@@ -19,6 +20,7 @@
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
+    "firebase-functions": "^4.4.1",
     "helmet": "^7.0.0",
     "mongoose": "^7.4.1",
     "pino": "^8.14.1",
