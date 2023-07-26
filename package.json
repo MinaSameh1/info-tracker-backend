@@ -1,0 +1,46 @@
+{
+  "name": "orthdox-functions",
+  "version": "0.0.1",
+  "description": "Mainly serverless functions for small usage",
+  "main": "index.js",
+  "scripts": {
+    "start": "node dist/index.js",
+    "format": "prettier --write \"src/**/*.ts\"",
+    "lint": "eslint --ext .ts src",
+    "build": "tsc",
+    "build:watch": "tsc --watch --noEmit",
+    "dev": "nodemon --exec 'ts-node --esm' src/index.ts",
+    "pre-commit": "lint-staged",
+    "test": "node --test"
+  },
+  "author": "Mina Sameh",
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "helmet": "^7.0.0",
+    "mongoose": "^7.4.1",
+    "pino": "^8.14.1",
+    "pino-pretty": "^10.2.0",
+    "zod": "^3.21.4"
+  },
+  "type": "module",
+  "exports": "./dist/index.js",
+  "devDependencies": {
+    "@types/express": "^4.17.17",
+    "@types/node": "^20.4.5",
+    "@typescript-eslint/eslint-plugin": "^6.2.0",
+    "@typescript-eslint/parser": "^6.2.0",
+    "cross-env": "^7.0.3",
+    "eslint": "^8.45.0",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-plugin-prettier": "^5.0.0",
+    "husky": "^8.0.3",
+    "lint-staged": "^13.2.3",
+    "nodemon": "^3.0.1",
+    "prettier": "^3.0.0",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.1.6"
+  }
+}

@@ -1,0 +1,11 @@
+node_modules/
+build
+.vscode
+.next
+.env
+.env.dev
+.env.prod
+firebase-debug.log
+ui-debug.log
+package-lock.json
+.eslintcache
