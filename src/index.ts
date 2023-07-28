@@ -1,3 +1,4 @@
-app.listen(port, () => {
-  console.log(`🚀 server started at http://localhost:${port}`)
-})
+import { https } from 'firebase-functions'
+import app from './app.js'
+
+export const saglnei = https.onRequest(app)

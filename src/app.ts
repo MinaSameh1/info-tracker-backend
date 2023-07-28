@@ -1,16 +1,46 @@
-import express, { Request, Response } from 'express'
 import cors from 'cors'
-import helmet from 'helmet'
 import 'dotenv/config'
+import express from 'express'
+import helmet from 'helmet'
+import { HttpStatus } from './assets/httpCodes.js'
+import { loggerMiddleware } from './config/logger.js'
+import { initalize } from './config/config.js'
+import PersonRouter from './modules/person/person.router.js'
 
 const app = express()
 
 /********** GLOBAL MIDDLEWARES **********/
-app.use(cors())
+// Sane defaults middlewares
+app.use(cors({ origin: true }))
 app.use(helmet())
+app.use(loggerMiddleware)
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
-app.get('/', (req: Request, res: Response) => {
-  res.json({ greeting: 'Hello world!' })
-})
+/********** ROUTES *********/
+// Load routes
+
+app.use('/persons', PersonRouter)
+
+/********** ERROR HANDLER *********/
+app.use(
+  (
+    err: Error & {
+      code: string
+      type: string
+    },
+    req: express.Request,
+    res: express.Response,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    _next: express.NextFunction
+  ): void | Promise<void> => {
+    res.err = err
+    res
+      .status(HttpStatus.INTERNAL_SERVER_ERROR)
+      .json({ error: true, message: 'Internal Server Error' })
+  }
+)
+
+await initalize()
+
+export default app

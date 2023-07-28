@@ -1,14 +1,16 @@
 import { z } from 'zod'
 
-export const PersonSchema = z.object({
+export const PersonInputSchema = z.object({
   name: z.string({
     required_error: 'Name is required',
     invalid_type_error: 'Name must be a string'
   }),
-  nid: z.string({
-    required_error: 'NID is required',
-    invalid_type_error: 'NID must be a string'
-  }),
+  nationalId: z
+    .string({
+      required_error: 'NID is required',
+      invalid_type_error: 'NID must be a string'
+    })
+    .length(14),
   status: z.string({
     required_error: 'Status is required',
     invalid_type_error: 'Status must be a string'
@@ -25,8 +27,12 @@ export const PersonSchema = z.object({
     .datetime({
       message: 'DateOfTalab must be a valid date'
     })
+    .transform(val => new Date(val))
 })
 
-export const PersonListSchema = z.array(PersonSchema)
+export const PersonInputBodySchema = z.object({
+  // Allow both single and array of persons
+  body: PersonInputSchema.or(z.array(PersonInputSchema))
+})
 
-export type Person = z.infer<typeof PersonSchema>
+export type PersonInput = z.infer<typeof PersonInputSchema>
