@@ -1,5 +1,5 @@
 export const Roles = Object.freeze({
-  admin: 'admin',
-  superAdmin: 'superAdmin',
-  worker: 'worker'
+  ADMIN: 'admin',
+  SUPER_ADMIN: 'super_admin',
+  WORKER: 'worker'
 })

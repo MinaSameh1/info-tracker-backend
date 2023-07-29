@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from 'express'
 import { HttpStatus } from '../assets/httpCodes'
 import { Roles } from '../models/roles.entity'
+import { ValueOf } from '../types/helper.types'
 
 // export function roleGuard(req: Request, res: Response, next: NextFunction) {
 //   const user = req.user
@@ -21,13 +22,14 @@ import { Roles } from '../models/roles.entity'
 //   next()
 // }
 
-export function roleGuard(role: keyof typeof Roles) {
+// old type: (typeof Roles)[keyof typeof Roles]
+export function roleGuard(role: ValueOf<typeof Roles>) {
   return (req: Request, res: Response, next: NextFunction) => {
     const user = req.user
     const { roles } = user
 
     // Allow super admin to do anything.
-    if (roles.includes(Roles.superAdmin) || roles.includes(role)) return next()
+    if (roles.includes(Roles.SUPER_ADMIN) || roles.includes(role)) return next()
 
     return res
       .status(HttpStatus.UNAUTHORIZED)

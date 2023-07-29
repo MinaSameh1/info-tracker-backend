@@ -14,7 +14,7 @@ import { Roles } from '../../models/roles.entity'
 
 const UserRouter = Router()
 
-UserRouter.use(roleGuard(Roles.admin))
+UserRouter.use(roleGuard(Roles.ADMIN))
 
 UserRouter.get(
   '/',
