@@ -1,12 +1,12 @@
 export class CrudPermissions {
   Create: string
-  View: string
+  Read: string
   Update: string
   Delete: string
 
   Permissions: {
     Create: string
-    View: string
+    Read: string
     Update: string
     Delete: string
   }
@@ -14,14 +14,14 @@ export class CrudPermissions {
   constructor(name: string) {
     const nameUpperCased = name.charAt(0).toUpperCase() + name.substring(1)
     this.Create = `CanCreate${nameUpperCased}`
-    this.View = `CanView${nameUpperCased}`
+    this.Read = `CanRead${nameUpperCased}`
     this.Delete = `CanDelete${nameUpperCased}`
     this.Update = `CanUpdate${nameUpperCased}`
     this.Permissions = {
-      Create: `CanCreate${nameUpperCased}`,
-      View: `CanView${nameUpperCased}`,
-      Delete: `CanDelete${nameUpperCased}`,
-      Update: `CanUpdate${nameUpperCased}`
+      Create: this.Create,
+      Read: this.Read,
+      Delete: this.Delete,
+      Update: this.Update
     }
   }
 }

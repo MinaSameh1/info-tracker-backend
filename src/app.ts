@@ -6,6 +6,7 @@ import { HttpStatus } from './assets/httpCodes.js'
 import { loggerMiddleware } from './config/logger.js'
 import { initalize } from './config/config.js'
 import PersonRouter from './modules/person/person.router.js'
+import { pagination } from './middleware/pagination.middleware.js'
 
 const app = express()
 
@@ -14,6 +15,7 @@ const app = express()
 app.use(cors({ origin: true }))
 app.use(helmet())
 app.use(loggerMiddleware)
+app.use(pagination)
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 

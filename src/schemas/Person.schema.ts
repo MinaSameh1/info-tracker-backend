@@ -35,4 +35,8 @@ export const PersonInputBodySchema = z.object({
   body: PersonInputSchema.or(z.array(PersonInputSchema))
 })
 
+export const PersonUpdateInputSchema = PersonInputSchema.partial()
+
+export type PersonUpdateInput = z.infer<typeof PersonUpdateInputSchema>
+
 export type PersonInput = z.infer<typeof PersonInputSchema>

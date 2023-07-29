@@ -1,6 +1,7 @@
 import { Schema, HydratedDocument, model, Model, Types } from 'mongoose'
 import { CrudPermissions } from '../helpers/permissionsCreator.js'
 import { UserInput } from '../schemas/User.schema.js'
+import { Roles } from './roles.entity.js'
 
 export const UserPermissions = new CrudPermissions('user')
 
@@ -28,9 +29,9 @@ const UserSchema = new Schema<User>(
       type: String,
       required: true
     },
-    role: {
-      type: String,
-      enum: ['admin', 'user'],
+    roles: {
+      type: [String],
+      enum: Object.values(Roles),
       required: true
     },
     status: {
