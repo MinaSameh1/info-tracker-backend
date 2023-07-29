@@ -1,7 +1,7 @@
-import type { Request, Response, NextFunction } from 'express'
+import type { NextFunction, Request, Response } from 'express'
 import { HttpStatus } from '../assets/httpCodes'
 
-export const checkUserPermissions = (permissions: string[]) => {
+export const checkUserPermissions = (...permissions: string[]) => {
   return (req: Request, res: Response, next: NextFunction) => {
     const user = req.user
     if (!user) {

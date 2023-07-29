@@ -1,2 +1,2 @@
 export * from './mongodb.utils.js'
-export * from './arabic.index.js'
+export * from './arabic.utils.js'

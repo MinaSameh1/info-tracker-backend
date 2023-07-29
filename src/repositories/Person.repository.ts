@@ -1,4 +1,4 @@
-import { ProjectionType, Types } from 'mongoose'
+import { ProjectionType, QueryOptions, Types } from 'mongoose'
 import { PersonDocument, PersonModel } from '../models/person.model'
 import { PersonInput } from '../schemas/Person.schema'
 import { normalizeArabicSpaces } from '../utils'
@@ -7,8 +7,16 @@ export const PersonRepository = Object.freeze({
   create: (person: PersonInput): Promise<PersonDocument> =>
     PersonModel.create(person),
 
-  findOneById: (id: string | Types.ObjectId, lean = true) =>
-    PersonModel.findById(id, { lean }).exec(),
+  findOneById: (
+    id: string | Types.ObjectId,
+    {
+      select,
+      options = { lean: true }
+    }: {
+      select?: ProjectionType<PersonDocument>
+      options?: QueryOptions<PersonDocument>
+    }
+  ) => PersonModel.findById(id, select, options).exec(),
 
   findOneByNationalId: (nationalId: string, lean = true) =>
     PersonModel.findOne({ nationalId }, { lean }).exec(),
@@ -19,20 +27,33 @@ export const PersonRepository = Object.freeze({
   countDocuments: (filter: Record<string, unknown>) =>
     PersonModel.countDocuments(filter).exec(),
 
+  deleteOne: (filter: Record<string, unknown>) =>
+    PersonModel.deleteOne(filter).lean().exec(),
+
+  findOneAndUpdate: (
+    filter: Record<string, unknown>,
+    update: Record<string, unknown>,
+    {
+      options = { new: true }
+    }: {
+      options: QueryOptions<PersonDocument>
+    }
+  ) => PersonModel.findOneAndUpdate(filter, update, options).exec(),
+
   findManyAndPaginate: ({
     filter,
     limit,
     skip,
-    lean = true,
+    options = { lean: true },
     select
   }: {
     filter: Record<string, unknown>
     limit: number
     skip: number
-    lean: boolean
+    options?: QueryOptions<PersonDocument>
     select?: ProjectionType<PersonDocument>
   }) =>
-    PersonModel.find(filter, select, { lean })
+    PersonModel.find(filter, select, options)
       .skip(skip)
       .limit(limit)
       .sort({ createdAt: -1 })

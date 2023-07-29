@@ -41,6 +41,7 @@ export const loggerMiddleware = pinoHttp({
 
       return {
         id: req.id,
+        ip: ip,
         method: req.method,
         url: req.url,
         path: req.path,
@@ -49,8 +50,7 @@ export const loggerMiddleware = pinoHttp({
         headers: {
           host: req.headers.host,
           'user-agent': req.headers['user-agent']
-        },
-        ip: ip
+        }
       }
     },
     res: res => res.statusCode,
@@ -66,12 +66,8 @@ export const loggerMiddleware = pinoHttp({
   customLogLevel: (_req, res, err) => {
     if (res.statusCode >= 400 && res.statusCode < 500) return 'warn'
     if (res.statusCode >= 500 || err) return 'error'
-    return LOGGING_LEVEL ?? 'info'
+    return LOGGING_LEVEL
   }
 })
 
-if (process.env.LOGGING_LEVEL) {
-  logger.level = LOGGING_LEVEL ?? 'info'
-}
-
-if (IS_DEV) logger.level = 'debug'
+logger.level = LOGGING_LEVEL

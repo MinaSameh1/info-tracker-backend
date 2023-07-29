@@ -10,6 +10,7 @@ function validateProcessEnv() {
   const envSchema = z.object({
     MONGO_URI: z.string(),
     JWT_SECRET: z.string(),
+    PORT: z.string().optional().default('8000'),
     OTP_TOKEN: z.string(),
     // FB_APP_SERVICE_ACCOUNT: z.string(),
     APP_ENV: z.string().optional().default('PROD'),
@@ -18,7 +19,12 @@ function validateProcessEnv() {
       .optional()
       .default('info')
   })
-  envSchema.parse(process.env)
+
+  // This will throw an error if any of the env vars are missing or invalid which will crash the server
+  const obj = envSchema.parse(process.env)
+
+  // clean up process.env
+  process.env = obj
 }
 
 export const JWT_SECRET = process.env.JWT_SECRET as string
