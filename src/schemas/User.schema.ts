@@ -4,7 +4,7 @@ import { Roles } from '../models/roles.entity'
 export const UserInputSchema = z.object({
   name: z.string(),
   username: z.string().min(3).max(100),
-  password: z.string().min(8).max(100),
+  password: z.string().min(6).max(100),
   roles: z.enum(Object.values(Roles) as unknown as [string]).array(),
   active: z.boolean().default(true),
   notes: z.string().optional()

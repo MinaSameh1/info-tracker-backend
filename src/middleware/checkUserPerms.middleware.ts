@@ -1,6 +1,7 @@
 import type { NextFunction, Request, RequestHandler, Response } from 'express'
 import { HttpStatus } from '../assets/httpCodes'
-import { IAppPermissionsValues } from '../models/permissions.entity'
+import { IAppPermissionsValues } from '../models'
+import { Roles } from '../models/roles.entity'
 
 /**
  * @description Check if the user has the permission to access the route
@@ -13,9 +14,9 @@ export const checkUserPermissions = (
   permission: IAppPermissionsValues
 ): RequestHandler => {
   return (req: Request, res: Response, next: NextFunction) => {
-    if (req.user.permissions.includes(permission)) {
-      return next()
-    }
+    if (req.user.roles.includes(Roles.SUPER_ADMIN)) return next()
+
+    if (req.user.permissions.includes(permission)) return next()
 
     return res.status(HttpStatus.FORBIDDEN).json({ message: 'Forbidden' })
   }

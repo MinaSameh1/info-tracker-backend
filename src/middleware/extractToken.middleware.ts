@@ -1,6 +1,6 @@
 import type { NextFunction, Request, Response } from 'express'
-import { HttpStatus } from '../assets/httpCodes'
 import { verifyJwt } from '../services/jwt.service'
+import { UanuthorizedResponse } from '../helpers/express.helper'
 
 export const extractToken = (
   req: Request,
@@ -10,25 +10,21 @@ export const extractToken = (
   const { authorization } = req.headers
 
   if (!authorization) {
-    return res
-      .setHeader('WWW-Authenticate', 'Basic')
-      .sendStatus(HttpStatus.UNAUTHORIZED)
+    return next()
   }
+
+  req.log.debug('extractToken Authorization header found')
 
   const token = authorization.replace(/Bearer /g, '')
 
   if (!token) {
-    return res
-      .setHeader('WWW-Authenticate', 'Basic')
-      .sendStatus(HttpStatus.UNAUTHORIZED)
+    return UanuthorizedResponse(res, req.log.debug, 'Missing Token')
   }
 
   const user = verifyJwt(token)
 
   if (!user) {
-    return res
-      .setHeader('WWW-Authenticate', 'Basic')
-      .sendStatus(HttpStatus.UNAUTHORIZED)
+    return UanuthorizedResponse(res, req.log.debug, 'Invalid Token')
   }
 
   req.user = user

@@ -1,9 +1,10 @@
-import { UserDocument, UserModel } from '../../models/user.model'
+import { UserDocument } from '../../models/user.model'
+import { UserRepository } from '../../repositories/User.repository'
 import { signJwt } from '../../services/jwt.service'
 
 export const authService = Object.freeze({
   findUserByUserName: async (username: string) => {
-    return UserModel.findOne({ username }).lean().exec()
+    return UserRepository.findOneByUserName(username)
   },
 
   generateToken: async (user: UserDocument) => {

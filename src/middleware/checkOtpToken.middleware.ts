@@ -1,23 +1,20 @@
 import type { NextFunction, Request, Response } from 'express'
-import { HttpStatus } from '../assets/httpCodes'
 import { OTP_TOKEN } from '../config'
+import { UanuthorizedResponse } from '../helpers/express.helper'
 
 export const checkOtpToken = (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
-  const { otpToken } = req.headers
+  req.log.debug('checkOtpToken')
+  const otpToken = req.get('otptoken')
   if (!otpToken) {
-    return res
-      .setHeader('WWW-Authenticate', 'Basic')
-      .sendStatus(HttpStatus.UNAUTHORIZED)
+    return UanuthorizedResponse(res, req.log.debug, 'Missing Otp token')
   }
 
   if (otpToken !== OTP_TOKEN) {
-    return res
-      .setHeader('WWW-Authenticate', 'Basic')
-      .sendStatus(HttpStatus.UNAUTHORIZED)
+    return UanuthorizedResponse(res, req.log.debug, 'Wrong Otp token')
   }
 
   next()

@@ -1,14 +1,8 @@
 import { Schema, HydratedDocument, model, Model, Types } from 'mongoose'
-import {
-  AppPermissionsValues,
-  IAppPermissionsValues
-} from './permissions.entity.js'
-import { CrudPermissions } from '../helpers/permissionsCreator.js'
-import { UserInput } from '../schemas/User.schema.js'
-import { Roles } from './roles.entity.js'
-import { ValueOf } from '../types/helper.types.js'
-
-export const UserPermissions = new CrudPermissions('user')
+import { AppPermissionsValues, IAppPermissionsValues } from './'
+import { UserInput } from '../schemas/User.schema'
+import { Roles } from './roles.entity'
+import { ValueOf } from '../types/helper.types'
 
 export interface User extends UserInput {
   createdBy: Types.ObjectId
@@ -48,7 +42,7 @@ const UserSchema = new Schema<User>(
     },
     active: {
       type: Boolean,
-      required: true
+      default: true
     },
     notes: {
       type: String,
@@ -56,14 +50,13 @@ const UserSchema = new Schema<User>(
     },
     createdBy: {
       type: Schema.Types.ObjectId,
-      required: true,
+      // required: true,
       ref: 'user'
     }
   },
   { timestamps: true }
 )
 
-export const UserModel = model<UserDocument, Model<UserDocument>>(
-  'user',
-  UserSchema
-)
+const UserModel = model<UserDocument, Model<UserDocument>>('user', UserSchema)
+
+export { UserModel }

@@ -4,7 +4,6 @@
   "description": "Mainly serverless functions for small usage in sagleni application",
   "main": "index.js",
   "esm": "auto",
-  "type": "module",
   "exports": "./dist/index.js",
   "author": "Mina Sameh",
   "license": "MIT",

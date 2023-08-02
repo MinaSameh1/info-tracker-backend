@@ -6,6 +6,9 @@ import { UserInput } from '../schemas/User.schema'
 export const UserRepository = Object.freeze({
   create: (user: UserInput): Promise<UserDocument> => UserModel.create(user),
 
+  findOneByUserName: (username: string) =>
+    UserModel.findOne({ username }).lean().exec(),
+
   findOneById: (
     id: string | Types.ObjectId,
     {

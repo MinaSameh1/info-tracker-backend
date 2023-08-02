@@ -35,8 +35,6 @@ export const JWT_PRIVATE_KEY = process.env.JWT_PRIVATE_KEY as string
 
 export const OTP_TOKEN = process.env.OTP_TOKEN as string
 
-export const LOGGING_LEVEL = process.env.LOGGING_LEVEL as string as
-  | 'info'
-  | 'debug'
-  | 'warn'
-  | 'error'
+export const LOGGING_LEVEL = IS_DEV
+  ? 'debug'
+  : (process.env.LOGGING_LEVEL as string as 'info' | 'debug' | 'warn' | 'error')

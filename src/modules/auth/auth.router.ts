@@ -6,10 +6,11 @@ import { authController } from './auth.controller'
 
 const AuthRouter = Router()
 
-AuthRouter.get(
+AuthRouter.use(checkOtpToken)
+
+AuthRouter.post(
   '/login',
   Log,
-  checkOtpToken,
   validateResource(LoginInput),
   wrapExpressFunction(authController.login)
 )

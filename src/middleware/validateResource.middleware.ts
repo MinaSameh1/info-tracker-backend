@@ -6,6 +6,7 @@ import { HttpStatus } from '../assets/httpCodes'
 export const validateResource =
   (schema: AnyZodObject) =>
   (req: Request, res: Response, next: NextFunction) => {
+    req.log.debug('validateResource')
     try {
       schema.parse({
         body: req.body,

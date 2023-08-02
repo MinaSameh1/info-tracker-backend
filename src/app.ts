@@ -2,17 +2,17 @@ import cors from 'cors'
 import 'dotenv/config'
 import express from 'express'
 import helmet from 'helmet'
-import { HttpStatus } from './assets/httpCodes.js'
-import { initalize } from './config/config.js'
-import { loggerMiddleware } from './config/logger.js'
-import { pagination } from './middleware/pagination.middleware.js'
-import AuthRouter from './modules/auth/auth.router.js'
-import PersonRouter from './modules/person/person.router.js'
-import UserRouter from './modules/user/user.router.js'
-import { extractToken } from './middleware/extractToken.middleware.js'
+import { LoggerRepository } from './repositories/Logger.repository'
+import { HttpStatus } from './assets'
+import { initalize, loggerMiddleware } from './config'
+import { extractToken, pagination, requireUser } from './middleware'
+import AuthRouter from './modules/auth/auth.router'
+import PersonRouter from './modules/person/person.router'
+import UserRouter from './modules/user/user.router'
 
 // Make sure env vars are valid and set up db connection before anything else
-await initalize()
+
+initalize()
 
 const app = express()
 
@@ -22,6 +22,7 @@ app.use(cors({ origin: true }))
 app.use(helmet())
 app.use(loggerMiddleware)
 app.use(pagination)
+app.use(extractToken)
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
@@ -30,9 +31,8 @@ app.use(express.urlencoded({ extended: true }))
 app.use('/auth', AuthRouter)
 
 // Protected routes
-app.use(extractToken)
-app.use('/persons', PersonRouter)
-app.use('/users', UserRouter)
+app.use('/persons', requireUser, PersonRouter)
+app.use('/users', requireUser, UserRouter)
 
 /********** ERROR HANDLER *********/
 app.use(
@@ -47,6 +47,30 @@ app.use(
     _next: express.NextFunction
   ): void | Promise<void> => {
     res.err = err
+    const ip =
+      req.headers['fastly-client-ip'] ||
+      req.headers['x-forwarded-for'] ||
+      req.ip
+
+    // Sometimes erorr caused the user to be undefined, but now it's not -\__('-')__/-
+    // extractToken(req, res, _next)
+
+    LoggerRepository.Create({
+      user: req.user?._id,
+      action: req.method as string,
+      resource: req.originalUrl,
+      type: 'error',
+      payload: {
+        status: res.statusCode,
+        error: err.message,
+        cause: err.cause,
+        code: err.code,
+        stack: err.stack
+      },
+      ip: ip as string,
+      userAgent: req.get('user-agent') ?? 'unknown',
+      contentLength: Number(res.get('content-length') ?? 0)
+    })
     res
       .status(HttpStatus.INTERNAL_SERVER_ERROR)
       .json({ error: true, message: 'Internal Server Error' })

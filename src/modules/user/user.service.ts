@@ -35,7 +35,9 @@ export const UserService = Object.freeze({
 
   createUser: async (user: UserInput) => {
     const password = await hash(user.password)
-    return UserRepository.create({ ...user, password })
+    const newUser = await UserRepository.create({ ...user, password })
+    delete (newUser as { password?: string }).password
+    return newUser
   },
 
   updateUser: async (id: string, user: UserInput) => {

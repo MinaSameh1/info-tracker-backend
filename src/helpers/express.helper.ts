@@ -1,5 +1,6 @@
 import type { NextFunction, Request, Response } from 'express'
 import { logger } from '../config/logger.js'
+import { HttpStatus } from '../assets/httpCodes.js'
 
 export function wrapExpressFunction(
   // This done as the controller's Request are typed, so when passed here it complains about the type
@@ -18,4 +19,15 @@ export function wrapExpressFunction(
         )
       })
   }
+}
+
+export function UanuthorizedResponse(
+  res: Response,
+  logger?: (msg: string) => void,
+  cause?: string
+) {
+  if (logger) logger(`Unauthorized ${cause}`)
+  return res
+    .setHeader('WWW-Authenticate', 'Basic')
+    .sendStatus(HttpStatus.UNAUTHORIZED)
 }

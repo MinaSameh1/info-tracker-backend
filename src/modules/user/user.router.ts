@@ -7,8 +7,8 @@ import {
   roleGuard,
   validateResource
 } from '../../middleware'
+import { UserPermissions } from '../../models'
 import { Roles } from '../../models/roles.entity'
-import { UserPermissions } from '../../models/user.model'
 import { UserInputBodySchema } from '../../schemas/User.schema'
 import { UserController } from './user.controller'
 
