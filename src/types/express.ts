@@ -1,12 +1,5 @@
 import type { NextFunction, Request, Response } from 'express'
-import { Roles } from '../models/roles.entity'
-
-export type TokenPayload = {
-  id: string
-  permissions: string[]
-  // values of Roles
-  roles: (typeof Roles)[keyof typeof Roles][]
-}
+import { TokenPayload } from './token.payload'
 
 export type Pagination = {
   limit: number

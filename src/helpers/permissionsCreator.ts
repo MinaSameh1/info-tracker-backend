@@ -1,18 +1,21 @@
-export class CrudPermissions {
-  Create: string
-  Read: string
-  Update: string
-  Delete: string
+type PermissionsType<T extends string> = {
+  readonly Create: `CanCreate${T}`
+  readonly Read: `CanRead${T}`
+  readonly Update: `CanUpdate${T}`
+  readonly Delete: `CanDelete${T}`
+}
 
-  Permissions: {
-    Create: string
-    Read: string
-    Update: string
-    Delete: string
-  }
+export class CrudPermissions<T extends string> {
+  Create: `CanCreate${Capitalize<T>}`
+  Read: `CanRead${Capitalize<T>}`
+  Update: `CanUpdate${Capitalize<T>}`
+  Delete: `CanDelete${Capitalize<T>}`
 
-  constructor(name: string) {
-    const nameUpperCased = name.charAt(0).toUpperCase() + name.substring(1)
+  Permissions: PermissionsType<Capitalize<T>>
+
+  constructor(name: T) {
+    const nameUpperCased = (name.charAt(0).toUpperCase() +
+      name.substring(1)) as Capitalize<T>
     this.Create = `CanCreate${nameUpperCased}`
     this.Read = `CanRead${nameUpperCased}`
     this.Delete = `CanDelete${nameUpperCased}`
@@ -22,7 +25,7 @@ export class CrudPermissions {
       Read: this.Read,
       Delete: this.Delete,
       Update: this.Update
-    }
+    } as const
   }
 }
 

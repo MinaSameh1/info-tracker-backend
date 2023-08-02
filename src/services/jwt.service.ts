@@ -1,31 +1,26 @@
 import jwt from 'jsonwebtoken'
-import { Types } from 'mongoose'
-import { JWT_SECRET } from '../config'
-import { TokenPayload } from '../types/express'
+import { JWT_PRIVATE_KEY } from '../config'
+import { TokenPayload } from '../types/token.payload'
 
-export const JwtSign = (
-  data: { _id: string | Types.ObjectId; role: string },
-  expiresIn: '1d' | '10d' | '1y' = '1y'
-) =>
-  jwt.sign({ userId: data._id, role: data.role }, JWT_SECRET, {
-    expiresIn: expiresIn
+export function signJwt(
+  object: TokenPayload,
+  options?: jwt.SignOptions | undefined
+) {
+  const signingKey = Buffer.from(JWT_PRIVATE_KEY).toString('ascii')
+
+  return jwt.sign(object, signingKey, {
+    ...(options && options),
+    algorithm: 'RS256'
   })
+}
 
-/*
- * Takes JWT and verifys
- * @param {string} token
- */
-export function verifyJwt(token: string) {
+export function verifyJwt(token: string): TokenPayload | null {
+  const publicKey = Buffer.from(JWT_PRIVATE_KEY).toString('ascii')
+
   try {
-    const value = jwt.verify(token, JWT_SECRET)
-    return {
-      err: null,
-      value: value as TokenPayload
-    }
-  } catch (err: unknown) {
-    return {
-      err: err,
-      value: null
-    }
+    const decoded = jwt.verify(token, publicKey) as TokenPayload
+    return decoded
+  } catch (e) {
+    return null
   }
 }

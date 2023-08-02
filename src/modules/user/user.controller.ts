@@ -18,7 +18,6 @@ export const UserController = Object.freeze({
 
   One: async (req: Request, res: Response) => {
     const result = await UserService.getOneUser(req.params.id)
-
     if (!result)
       return res
         .status(HttpStatus.NOT_FOUND)

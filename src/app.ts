@@ -3,10 +3,13 @@ import 'dotenv/config'
 import express from 'express'
 import helmet from 'helmet'
 import { HttpStatus } from './assets/httpCodes.js'
-import { loggerMiddleware } from './config/logger.js'
 import { initalize } from './config/config.js'
-import PersonRouter from './modules/person/person.router.js'
+import { loggerMiddleware } from './config/logger.js'
 import { pagination } from './middleware/pagination.middleware.js'
+import AuthRouter from './modules/auth/auth.router.js'
+import PersonRouter from './modules/person/person.router.js'
+import UserRouter from './modules/user/user.router.js'
+import { extractToken } from './middleware/extractToken.middleware.js'
 
 const app = express()
 
@@ -20,9 +23,13 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
 /********** ROUTES *********/
-// Load routes
+// Global routes
+app.use('/auth', AuthRouter)
 
+// Protected routes
+app.use(extractToken)
 app.use('/persons', PersonRouter)
+app.use('/users', UserRouter)
 
 /********** ERROR HANDLER *********/
 app.use(

@@ -13,13 +13,13 @@ const PersonRouter = Router()
 
 PersonRouter.get(
   '/',
-  checkUserPermissions(PersonPermissions.View),
+  checkUserPermissions(PersonPermissions.Read),
   wrapExpressFunction(PersonController.List)
 )
 
 PersonRouter.get(
   '/:id',
-  checkUserPermissions(PersonPermissions.View),
+  checkUserPermissions(PersonPermissions.Read),
   ObjectIdParam(':id'),
   wrapExpressFunction(PersonController.One)
 )

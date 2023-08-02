@@ -6,7 +6,7 @@ export const UserInputSchema = z.object({
   username: z.string().min(3).max(100),
   password: z.string().min(8).max(100),
   roles: z.enum(Object.values(Roles) as unknown as [string]).array(),
-  status: z.enum(['active', 'inactive']),
+  active: z.boolean().default(true),
   notes: z.string().optional()
 })
 

@@ -1,7 +1,6 @@
 import { logger } from '../config/logger'
 import { LoggerRepository } from '../repositories/Logger.repository'
 import { ExpressFunc } from '../types/express'
-import { ObjectId } from '../utils'
 
 const error = logger.error
 
@@ -16,7 +15,7 @@ export const Log: ExpressFunc = (req, res, next) => {
     res.on('finish', () => {
       // Don't block
       LoggerRepository.Create({
-        user: req.user ? ObjectId(req.user.id) : undefined,
+        user: req.user?._id,
         action: req.method as string,
         resource: req.originalUrl,
         type: res.statusCode < 210 ? 'info' : 'bad_request',
@@ -45,7 +44,7 @@ export const LogEverything: ExpressFunc = (req, res, next) => {
     res.on('finish', () => {
       // Don't block
       LoggerRepository.Create({
-        user: req.user ? ObjectId(req.user.id) : undefined,
+        user: req.user?._id,
         action: req.method as string,
         resource: req.originalUrl,
         type: res.statusCode < 210 ? 'info' : 'bad_request',
@@ -78,7 +77,7 @@ export const LogOnError: ExpressFunc = (req, res, next) => {
       if (res.statusCode < 210) return
       // Don't block
       LoggerRepository.Create({
-        user: req.user ? ObjectId(req.user.id) : undefined,
+        user: req.user?._id,
         action: req.method as string,
         resource: req.originalUrl,
         type: res.statusCode < 210 ? 'info' : 'bad_request',

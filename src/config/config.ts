@@ -9,7 +9,7 @@ export function initalize() {
 function validateProcessEnv() {
   const envSchema = z.object({
     MONGO_URI: z.string(),
-    JWT_SECRET: z.string(),
+    JWT_PRIVATE_KEY: z.string(),
     PORT: z.string().optional().default('8000'),
     OTP_TOKEN: z.string(),
     // FB_APP_SERVICE_ACCOUNT: z.string(),
@@ -29,6 +29,10 @@ function validateProcessEnv() {
 
 export const JWT_SECRET = process.env.JWT_SECRET as string
 export const IS_DEV = (process.env.APP_ENV as string) === 'DEV'
+
+export const JWT_PRIVATE_KEY = process.env.JWT_PRIVATE_KEY as string
+
+export const OTP_TOKEN = process.env.OTP_TOKEN as string
 
 export const LOGGING_LEVEL = process.env.LOGGING_LEVEL as string as
   | 'info'

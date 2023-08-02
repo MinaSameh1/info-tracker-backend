@@ -1,5 +1,7 @@
+export * from './checkOtpToken.middleware'
 export * from './checkParameters.middleware'
 export * from './checkUserPerms.middleware'
+export * from './extractToken.middleware'
 export * from './logActivity.middleware'
 export * from './objectIdParam.middleware'
 export * from './pagination.middleware'

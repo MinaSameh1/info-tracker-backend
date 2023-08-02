@@ -26,6 +26,13 @@ import { ValueOf } from '../types/helper.types'
 export function roleGuard(role: ValueOf<typeof Roles>) {
   return (req: Request, res: Response, next: NextFunction) => {
     const user = req.user
+
+    if (!user) {
+      return res
+        .status(HttpStatus.UNAUTHORIZED)
+        .json({ message: 'You must be logged in to do this action.' })
+    }
+
     const { roles } = user
 
     // Allow super admin to do anything.
