@@ -11,6 +11,9 @@ import PersonRouter from './modules/person/person.router.js'
 import UserRouter from './modules/user/user.router.js'
 import { extractToken } from './middleware/extractToken.middleware.js'
 
+// Make sure env vars are valid and set up db connection before anything else
+await initalize()
+
 const app = express()
 
 /********** GLOBAL MIDDLEWARES **********/
@@ -49,7 +52,5 @@ app.use(
       .json({ error: true, message: 'Internal Server Error' })
   }
 )
-
-await initalize()
 
 export default app

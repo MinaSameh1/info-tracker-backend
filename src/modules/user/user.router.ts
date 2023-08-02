@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import { UserController } from './user.controller'
+import { wrapExpressFunction } from '../../helpers/express.helper'
 import {
   Log,
   ObjectIdParam,
@@ -7,10 +7,10 @@ import {
   roleGuard,
   validateResource
 } from '../../middleware'
-import { UserPermissions } from '../../models/user.model'
-import { wrapExpressFunction } from '../../helpers/express.helper'
-import { UserInputBodySchema } from '../../schemas/User.schema'
 import { Roles } from '../../models/roles.entity'
+import { UserPermissions } from '../../models/user.model'
+import { UserInputBodySchema } from '../../schemas/User.schema'
+import { UserController } from './user.controller'
 
 const UserRouter = Router()
 

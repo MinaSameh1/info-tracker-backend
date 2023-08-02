@@ -28,6 +28,7 @@ function validateProcessEnv() {
 }
 
 export const JWT_SECRET = process.env.JWT_SECRET as string
+
 export const IS_DEV = (process.env.APP_ENV as string) === 'DEV'
 
 export const JWT_PRIVATE_KEY = process.env.JWT_PRIVATE_KEY as string
