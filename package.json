@@ -10,7 +10,7 @@
   "license": "MIT",
   "scripts": {
     "start": "node dist/index.js",
-    "clean": "rm =rf ./dist || true",
+    "clean": "rm -rf ./dist || true",
     "build": "npm run clean && tsc",
     "build:watch": "tsc --watch --noEmit",
     "dev": "tsx watch src/dev.ts",
