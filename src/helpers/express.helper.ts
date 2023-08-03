@@ -21,12 +21,8 @@ export function wrapExpressFunction(
   }
 }
 
-export function UanuthorizedResponse(
-  res: Response,
-  logger?: (msg: string) => void,
-  cause?: string
-) {
-  if (logger) logger(`Unauthorized ${cause}`)
+export function UanuthorizedResponse(res: Response, cause?: string) {
+  logger.debug(`Unauthorized request: ${cause}`)
   return res
     .setHeader('WWW-Authenticate', 'Basic')
     .sendStatus(HttpStatus.UNAUTHORIZED)

@@ -18,13 +18,13 @@ export const extractToken = (
   const token = authorization.replace(/Bearer /g, '')
 
   if (!token) {
-    return UanuthorizedResponse(res, req.log.debug, 'Missing Token')
+    return UanuthorizedResponse(res, 'Missing Token')
   }
 
   const user = verifyJwt(token)
 
   if (!user) {
-    return UanuthorizedResponse(res, req.log.debug, 'Invalid Token')
+    return UanuthorizedResponse(res, 'Invalid Token')
   }
 
   req.user = user

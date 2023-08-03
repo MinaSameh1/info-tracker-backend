@@ -7,7 +7,7 @@ export const requireUser = (
 ) => {
   req.log.debug('requireUser')
   if (!req.user) {
-    return UanuthorizedResponse(res, req.log.debug, 'User is not logged in')
+    return UanuthorizedResponse(res, 'User is not logged in')
   }
   return next()
 }

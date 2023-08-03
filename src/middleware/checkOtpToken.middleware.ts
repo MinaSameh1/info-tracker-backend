@@ -10,11 +10,11 @@ export const checkOtpToken = (
   req.log.debug('checkOtpToken')
   const otpToken = req.get('otptoken')
   if (!otpToken) {
-    return UanuthorizedResponse(res, req.log.debug, 'Missing Otp token')
+    return UanuthorizedResponse(res, 'Missing Otp token')
   }
 
   if (otpToken !== OTP_TOKEN) {
-    return UanuthorizedResponse(res, req.log.debug, 'Wrong Otp token')
+    return UanuthorizedResponse(res, 'Wrong Otp token')
   }
 
   next()
