@@ -1,7 +1,7 @@
 {
-  "name": "orthdox-functions",
-  "version": "0.0.1",
-  "description": "Mainly serverless functions for small usage in sagleni application",
+  "name": "tracker-functions",
+  "version": "1.0.0",
+  "description": "Mainly serverless functions for small usage in a tracker application",
   "main": "index.js",
   "esm": "auto",
   "exports": "./dist/index.js",
