@@ -1,7 +1,7 @@
 {
-  "name": "tracker-functions",
+  "name": "info-functions",
   "version": "1.0.0",
-  "description": "Mainly serverless functions for small usage in a tracker application",
+  "description": "Mainly serverless functions for small usage in a info tracker application\nIt should track the users with their nid.",
   "main": "index.js",
   "esm": "auto",
   "exports": "./dist/index.js",
