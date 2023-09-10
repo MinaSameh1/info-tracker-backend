@@ -33,10 +33,6 @@ export function checkPermissions(
   userPermissions: string[],
   requiredPermissions: string[]
 ): boolean {
-  for (const perm of requiredPermissions) {
-    if (userPermissions.includes(perm)) {
-      return true
-    }
-  }
+  requiredPermissions.every(perm => userPermissions.includes(perm))
   return false
 }
